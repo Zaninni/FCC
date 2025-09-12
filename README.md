@@ -1,9 +1,10 @@
 # FCC Cooling System Controller
 
-Questo progetto contiene due sketch Arduino che implementano il controllo di un impianto di raffreddamento basato su una FSM non bloccante:
+Questo progetto contiene tre sketch Arduino che implementano il controllo di un impianto di raffreddamento basato su una FSM non bloccante:
 
 - **Opta AFX00002** (`OptaMaster/OPTA_Master_FSM_12LED.ino`): gestisce la logica di processo, le temporizzazioni e gli allarmi.
 - **UNO R3** (`UnoHMI/UNO_R3_HMI_I2C_12LED.ino`): funge da interfaccia uomo‑macchina (HMI) tramite I²C e 12 LED di stato.
+- **NANO ATmega328** (`NanoHMI/NANO_ATMEGA328_HMI_I2C_12LED.ino`): replica le funzionalità HMI dell'UNO per una scheda Arduino Nano.
 
 ## Mappa I/O Opta
 | Sensore/Attuatore | Pin Opta | Descrizione |
@@ -19,17 +20,17 @@ Questo progetto contiene due sketch Arduino che implementano il controllo di un 
 | Relè chiller | RELAY3 | `RLY_CHILLER` |
 | Relè extra | RELAY4 | `RLY_EXTRA` |
 
-## Mappa I/O UNO HMI
+## Mappa I/O UNO/NANO HMI
 
 ### Ingressi
-| Elemento | Pin UNO | Descrizione |
+| Elemento | Pin UNO/NANO | Descrizione |
 |----------|--------:|-------------|
 | Leva START/ON | D2 | attivo‑alto con pull‑down |
 | Leva FORCED_PUMP | D3 | attivo‑alto con pull‑down |
 | Pulsante RESET | D4 | momentaneo, attivo‑alto |
 
 ### LED di stato
-| LED | Pin UNO | Significato |
+| LED | Pin UNO/NANO | Significato |
 |-----|--------:|-------------|
 | STATE_ON | D5 | sistema acceso |
 | STATE_OFF | D6 | sistema spento |
@@ -60,7 +61,7 @@ La FSM dell’Opta è definita in `enum class FsmState` e comprende:
 2. Un arresto o un allarme spengono pompa e riscaldatore; il chiller resta attivo per `TT.chillerOffDelayMs` per post‑raffreddamento.
 
 ## Comunicazione I²C con HMI
-Il bus opera a **50 kHz**. L’Opta legge dall’UNO tre bit (START, FORZATO, RESET) e gli invia un frame LED con 12 bit ON e 12 bit BLINK.
-L’UNO campiona leve e pulsante con antirimbalzo, aggiorna i LED, disattiva le resistenze di pull-up interne su SDA/SCL e fornisce un heartbeat sul LED integrato.
+Il bus opera a **50 kHz**. L’Opta legge dall’UNO/NANO tre bit (START, FORZATO, RESET) e invia un frame LED con 12 bit ON e 12 bit BLINK.
+L’UNO/NANO campiona leve e pulsante con antirimbalzo, aggiorna i LED, disattiva le resistenze di pull-up interne su SDA/SCL e fornisce un heartbeat sul LED integrato.
 
 Per maggiori dettagli consultare i commenti nei rispettivi sketch.
