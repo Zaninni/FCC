@@ -26,16 +26,16 @@ const uint8_t LED_PINS[12] = { 5,6,7,8,9,10,11,12, A0,A1,A2,A3 };
 enum LedIndex : uint8_t {
   LED_STATE_ON = 0,
   LED_STATE_OFF,
+  LED_FORZATO,
   LED_OUT_HEATER,
   LED_OUT_PUMP,
   LED_OUT_CHILLER,
+  LED_EMERGENCY_ACTIVE,
   LED_ALARM_MINP,
   LED_ALARM_MAXP,
   LED_ALARM_NOFLOW,
   LED_ALARM_CHFAULT,
-  LED_ALARM_TEMP,
-  LED_EMERGENCY,
-  LED_FORZATO
+  LED_ALARM_TMAX
 };
 
 struct Debouncer { bool stable=false, last=false; uint32_t t=0; } dbStart, dbForced, dbReset;

@@ -31,19 +31,19 @@ Questo progetto contiene tre sketch Arduino che implementano il controllo di un 
 
 ### LED di stato
 | LED | Pin UNO/NANO | Significato |
-|-----|--------:|-------------|
+|-----|------------:|-------------|
 | STATE_ON | D5 | sistema acceso |
 | STATE_OFF | D6 | sistema spento |
-| OUT_HEATER | D7 | relè riscaldatore attivo |
-| OUT_PUMP | D8 | relè pompa attivo |
-| OUT_CHILLER | D9 | relè chiller attivo |
-| ALARM_LATCH | D10 | allarme latched |
-| ALARM_MINP | D11 | pressostato minima |
-| ALARM_MAXP | D12 | pressostato massima |
-| ALARM_NOFLOW | A0 | assenza flusso |
-| ALARM_CHFAULT | A1 | fault chiller |
-| EMERGENCY_ACTIVE | A2 | leva power‑off attiva |
-| FORZATO | A3 | stato FORCED_PUMP_ONLY |
+| FORZATO | D7 | pompaggio forzato attivo |
+| OUT_HEATER | D8 | relè riscaldatore attivo |
+| OUT_PUMP | D9 | relè pompa attivo |
+| OUT_CHILLER | D10 | relè chiller attivo |
+| EMERGENCY_ACTIVE | D11 | stato di emergenza |
+| ALARM_MINP | D12 | pressostato minima |
+| ALARM_MAXP | A0 | pressostato massima |
+| ALARM_NOFLOW | A1 | assenza flusso |
+| ALARM_CHFAULT | A2 | fault chiller |
+| ALARM_TMAX | A3 | temperatura oltre soglia |
 
 Il LED integrato **D13** fornisce heartbeat e impulso di attività I²C; le linee I²C sono **A4 (SDA)** e **A5 (SCL)** con pull-up interni disabilitati.
 

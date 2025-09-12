@@ -58,16 +58,16 @@ struct __attribute__((packed)) LedFrame {
 
 enum LedIdx : uint8_t {
   L_STATE_ON=0, L_STATE_OFF,
+  L_FORZATO,
   L_OUT_HEATER,
   L_OUT_PUMP,
   L_OUT_CHILLER,
+  L_EMERGENCY_ACTIVE,
   L_AL_MINP,
   L_AL_MAXP,
   L_AL_NOFLOW,
   L_AL_CHFAULT,
-  L_AL_TEMP,
-  L_EMERGENCY,
-  L_FORZATO
+  L_AL_TMAX
 };
 
 // ====== FSM ======
@@ -265,14 +265,14 @@ void loop(){
     if (alLatched.maxP)   B |= (1u<<L_AL_MAXP);
     if (alLatched.noFlow) B |= (1u<<L_AL_NOFLOW);
     if (alLatched.chFault)B |= (1u<<L_AL_CHFAULT);
-    if (alLatched.temp)   B |= (1u<<L_AL_TEMP);
-    BL |= (1u<<L_EMERGENCY);
+    if (alLatched.temp)   B |= (1u<<L_AL_TMAX);
+    BL |= (1u<<L_EMERGENCY_ACTIVE);
   } else {
     if (sMinP)   B |= (1u<<L_AL_MINP);
     if (sMaxP)   B |= (1u<<L_AL_MAXP);
     if (!sFlow)  B |= (1u<<L_AL_NOFLOW);
     if (sCh)     B |= (1u<<L_AL_CHFAULT);
-    if (sTemp)   B |= (1u<<L_AL_TEMP);
+    if (sTemp)   B |= (1u<<L_AL_TMAX);
   }
   if (st==FsmState::FORCED_PUMP_ONLY) B |= (1u<<L_FORZATO);
   LTX.on_bits=B & 0x0FFF; LTX.blink_bits=BL & 0x0FFF; i2cWriteLeds(LTX);
