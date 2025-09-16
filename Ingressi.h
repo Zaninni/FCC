@@ -11,7 +11,13 @@ struct Ingresso {
   bool trueSeLow;    // true se lo stato logico è LOW = attivo
 };
 
-
+// Struttura per i parametri di conversione
+struct TempScale {
+  float gain;
+  float off;
+  float Tmax;
+  float hyst;
+};
 
 // Enum per accesso simbolico agli ingressi (L'ORDINE DEVE ESSERE LO STESSO DI INGRESSI CPP)
 enum IngressiIndex {
@@ -23,7 +29,7 @@ enum IngressiIndex {
   POFF,    // pin fisico
   ONOFF,   // byte I2C
   POWER,   // byte I2C
-  RESET,   // byte I2C
+  RESETSW,   // byte I2C
   NUM_INGRESSI
 };
 
@@ -32,6 +38,6 @@ extern Ingresso ingressi[NUM_INGRESSI];
 
 // Funzioni
 void setupIngressi();
-void aggiornaIngressi(float tC);
+void aggiornaIngressi();
 
 #endif
