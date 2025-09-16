@@ -96,7 +96,7 @@ void loop() {
 
 sendLedCommand(255); //Comando refresh dei led
 
-// 2. Gestione del pulsante integrato su OPTA (active-low)
+/* 2. Gestione del pulsante integrato su OPTA (active-low)
 bool raw = digitalRead(BTN_USER);
 if (raw != rawPrev) {              // variazione grezza -> (ri)avvia debounce
   rawPrev = raw;
@@ -131,9 +131,12 @@ if (millis() - lastChangeMs >= DEBOUNCE_MS) {
       // currentLed = -1;
     }
   }
-
   stablePrev = stable;
 }
+ INE GESTIONE PULSANTE  
+*/
+
+
   float tC = readTempC();
   Serial.print("La temperatura è: ");
   Serial.println(tC);
