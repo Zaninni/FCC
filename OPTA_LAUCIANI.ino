@@ -132,10 +132,9 @@ void loop() {
           }
           else{
             Serial.println("Sequenza di avvio interrotta per errore startChilAlarm");
-            digitalWrite(DOUT_PUMP,HIGH);   //accendi pompa
+            digitalWrite(DOUT_PUMP,LOW);   //spegni pompa
             digitalWrite(DOUT_HEATER,LOW); //spegni heater
             digitalWrite(DOUT_CHILLER,LOW);//spegni chiller
-            sendLedCommand(LED_OUT_PUMP); //accendi led stato pompa
             delay(2);
           }
         }
@@ -155,13 +154,22 @@ void loop() {
           else if(MasterAlarm){
             Serial.println("Master Alarm! Attenzione!!!");
             digitalWrite(DOUT_HEATER,LOW); //spegni heater
+            
             //in base a che allarme e' spegni anche pompa o chiller
-            digitalWrite(DOUT_PUMP,HIGH);   //accendi pompa
-            digitalWrite(DOUT_CHILLER,HIGH);//accendi chiller
-            sendLedCommand(LED_OUT_PUMP); //accendi led stato pompa
+            if(ingressi[Pmin].stato || ingressi[Pmax].stato || ingressi[Flow].stato){
+              digitalWrite(DOUT_PUMP,LOW);   //spegni pompa
+            }
+            else{
+              sendLedCommand(LED_OUT_PUMP); //accendi led stato pompa
             delay(2);
-            sendLedCommand(LED_OUT_CHILLER); //accendi led stato chiller
-            delay(2);
+            }
+            if(ingressi[Chiller].stato || ingressi[Pmin].stato || ingressi[Pmax].stato || ingressi[Flow].stato){
+              digitalWrite(DOUT_CHILLER,LOW);//accendi chiller
+            }
+            else{
+              sendLedCommand(LED_OUT_CHILLER); //accendi led stato chiller
+              delay(2);
+            }
           }
         }
                
