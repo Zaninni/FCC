@@ -11,7 +11,7 @@ Ingresso ingressi[NUM_INGRESSI] = {
   {"Chiller", DIN_CHFAULT, false, true}, // LOW = attivo
   {"POFF", DIN_POWEROFF, false, true},       // LOW = attivo
   {"ONOFF", -1, false, false},           // byte I2C
-  {"POVER", -1, false, false},           // byte I2C
+  {"PUMP_OV", -1, false, false},           // byte I2C
   {"RESETSW", -1, false, false}            // byte I2C
 };
 
@@ -42,7 +42,7 @@ void setupIngressi() {
 
 // Aggiorna tutti gli ingressi (fisici, virtuali, I2C)
 void aggiornaIngressi() {
-  // 1️⃣ ingressi fisici
+  // 1ingressi fisici
   for (int i = 0; i < NUM_INGRESSI; i++) {
     if (ingressi[i].pin != -1) { // pin fisico
       bool lettura = digitalRead(ingressi[i].pin);
@@ -54,11 +54,13 @@ void aggiornaIngressi() {
     }
   }
   float tC = readTempC();
-  // 2️⃣ ingresso virtuale temperatura
+  // 2ingresso virtuale temperatura
   ingressi[Ptemp].stato = (tC >= TS.Tmax);
+  //Serial.println(tC);
+  
 
 
-  // 3️⃣ ingressi dallo slave I2C: ONOFF, POVER, RESET
+  // 3ingressi dallo slave I2C: ONOFF, POVER, RESET
   Wire.requestFrom(SLAVE_ADDR, 3);
   byte buffer[3];
   int i = 0;
@@ -68,7 +70,7 @@ void aggiornaIngressi() {
 
   if (i == 3) { // se ricevo tutti e 3 i byte
     ingressi[ONOFF].stato = buffer[0];
-    ingressi[POWER].stato = buffer[1];
+    ingressi[PUMP_OV].stato = buffer[1];
     ingressi[RESETSW].stato = buffer[2];
   }
 }

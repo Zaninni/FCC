@@ -28,7 +28,7 @@ enum IngressiIndex {
   Chiller,
   POFF,    // pin fisico
   ONOFF,   // byte I2C
-  POWER,   // byte I2C
+  PUMP_OV,   // byte I2C
   RESETSW,   // byte I2C
   NUM_INGRESSI
 };
