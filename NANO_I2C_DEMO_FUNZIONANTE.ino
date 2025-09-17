@@ -12,6 +12,8 @@
 #define I2C_ADDRESS   0x08
 #define RESET_BUTTON  4
 #define ALL_OFF_CMD   255
+#define PIN_POWER
+#define PIN_ONOFF
 
 enum LedIds {
   LED_STATE_ON,
@@ -50,6 +52,8 @@ void setup() {
 
   // Pulsante: attivo-basso, pull-up interno
   pinMode(RESET_BUTTON, INPUT_PULLUP);
+  pinMode(PIN_POWER, INPUT_PULLUP);
+  pinMode(PIN_ONOFF, INPUT_PULLUP);
 
   // Debug
   Serial.begin(115200);
@@ -104,7 +108,11 @@ void receiveEvent(int howMany) {
 
 // ===== Slave TX: risposta al master =====
 void requestEvent() {
+  uint8_t resp_power = digitalRead(PIN_POWER);
+  uint8_t resp_onoff = digitalRead(PIN_ONOFF);
   uint8_t resp = resetRequest;  // copia atomica
-  Wire.write(resp);             // 0 o 1
-  resetRequest = 0;             // evento consumato dopo la lettura del master
+  Wire.write(resp_onoff);
+  Wire.write(resp_power)             // 0 o 1
+  Wire.write(resp);
+  resetRequest = 0;             // evento consumato dopo la lettura del master 
 }
